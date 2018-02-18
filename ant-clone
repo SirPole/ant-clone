@@ -1,3 +1,24 @@
 #!/usr/bin/env bash
 
-set -e
+if [[ ${PROJECTS_PATH} ]]; then
+	if [[ $1 != '' ]]; then
+		HOST=git@git.antstudio.cz
+
+		for GROUP in project siemens core; do
+			git ls-remote -h "${HOST}:${GROUP}/$1" &> /dev/null
+			if [[ $? == 0 ]]; then
+				REPOSITORY="${HOST}:${GROUP}/$1"
+			fi
+		done
+
+		if [[ ${REPOSITORY} ]]; then
+			git -C ${PROJECTS_PATH} clone ${REPOSITORY}
+		else
+			echo -e "No repository '$1' found."
+		fi
+	else
+		echo -e "Please define which repo you wish to clone."
+	fi
+else
+	echo -e "Please setup your PROJECTS_PATH environment variable. See README.md for help."
+fi
