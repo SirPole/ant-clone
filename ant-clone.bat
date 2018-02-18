@@ -1,11 +1,7 @@
 @echo off
 
-IF /I NOT [%PROJECTS_PATH%]==[] (GOTO START) ELSE (GOTO MISSING_ENV)
-
-:START
-IF /I NOT [%~1]==[] (GOTO CHECK) ELSE (GOTO MISSING_ARG)
-
-:CHECK
+IF /I [%PROJECTS_PATH%]==[] (GOTO MISSING_ENV)
+IF /I [%~1]==[] (GOTO MISSING_ARG)
 SET HOST=git@git.antstudio.cz
 FOR %%g IN (project, siemens, core) DO (
 	git ls-remote %HOST%:%%g/%~1 >nul 2>%1
