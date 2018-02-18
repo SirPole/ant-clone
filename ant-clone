@@ -8,6 +8,7 @@ if [[ ${PROJECTS_PATH} ]]; then
 			git ls-remote -h "${HOST}:${GROUP}/$1" &> /dev/null
 			if [[ $? == 0 ]]; then
 				REPOSITORY="${HOST}:${GROUP}/$1"
+				break
 			fi
 		done
 
