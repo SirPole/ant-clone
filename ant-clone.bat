@@ -15,8 +15,14 @@ GOTO REPO_NOT_FOUND
 :CLONE
 IF /I NOT [%REPOSITORY%]==[] (
 	git -C %PROJECTS_PATH% clone %REPOSITORY%
-	GOTO EXIT
-) ELSE (GOTO REPO_NOT_FOUND)
+	GOTO EXEC
+)
+GOTO REPO_NOT_FOUND
+
+:EXEC
+FOR /f %%i IN ('dir /b %HOMEPATH%\.PhpStorm*') DO SET /P PHPSTORM_HOME=<%HOMEPATH%\%%i\system\.home
+START %PHPSTORM_HOME%\bin\phpstorm64.exe %PROJECTS_PATH%\%~1\
+GOTO EXIT
 
 :MISSING_ENV
 ECHO Please setup your PROJECTS_PATH environment variable. See README.md for help.
