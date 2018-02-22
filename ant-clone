@@ -13,7 +13,8 @@ if [[ ${PROJECTS_PATH} ]]; then
 		done
 
 		if [[ ${REPOSITORY} ]]; then
-			git -C ${PROJECTS_PATH} clone ${REPOSITORY}
+			git -C ${PROJECTS_PATH} clone ${REPOSITORY} 2> /dev/null
+			exec $(cat ~/$(ls ~ -ah | grep .PhpStorm | tail -1)/system/.home)/bin/phpstorm.sh ${PROJECTS_PATH}/$1 &> /dev/null
 		else
 			echo -e "No repository '$1' found."
 		fi
